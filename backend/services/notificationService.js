@@ -19,6 +19,12 @@ function getTwilioClient() {
 }
 
 export async function sendSms({ to, message }) {
+  if (!to || !to.startsWith("+91")) {
+    // eslint-disable-next-line no-console
+    console.log(`[SMS BLOCKED] Cannot send to ${to}, only Indian numbers (+91) allowed.`);
+    return { sent: false, error: "Only Indian numbers (+91) allowed" };
+  }
+
   const from = env.TWILIO_PHONE_NUMBER;
   const client = getTwilioClient();
 
